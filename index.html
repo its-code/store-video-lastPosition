@@ -1,0 +1,47 @@
+<html>
+  <head>
+    <title>Video stream sample</title>
+  </head>
+  <body>
+    
+    <video id="videoPlayer" width="550" height="550"  controls muted="muted" autoplay> 
+      <source src="/video" type="video/mp4">
+    </video>
+    
+    <div id="perc" style="display: inline; position:absolute;
+    top:0px; "></div>
+
+ <script>
+  
+  var vid = document.getElementById("videoPlayer");
+
+  window.onbeforeunload = function () {
+    storeCurrentTime();
+  }
+
+  function storeCurrentTime() {
+    let ct = vid.currentTime
+    localStorage.setItem("CurrentT",ct);
+  }
+
+  function setCurTime() {
+   vid.currentTime = localStorage.getItem("CurrentT")
+  }
+
+  function totalCourseComp(){
+    let totalDuration = vid.duration
+    let crntTime = localStorage.getItem("CurrentT")
+    let difference = totalDuration - crntTime
+    const totalProgress = ( difference / totalDuration)*100
+    document.getElementById("perc").innerHTML = Math.round(totalProgress) + "%"
+  }
+
+  window.onload = function(){
+    setCurTime() 
+    totalCourseComp()
+  }
+  
+ </script>
+
+  </body>
+</html>
